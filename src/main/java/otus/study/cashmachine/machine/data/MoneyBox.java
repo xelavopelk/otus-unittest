@@ -1,4 +1,4 @@
-package otus.study.cashmachine.machine;
+package otus.study.cashmachine.machine.data;
 
 public class MoneyBox {
     int note100;

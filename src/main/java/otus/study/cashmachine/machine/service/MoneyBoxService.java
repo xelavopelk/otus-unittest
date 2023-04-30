@@ -1,6 +1,6 @@
 package otus.study.cashmachine.machine.service;
 
-import otus.study.cashmachine.machine.MoneyBox;
+import otus.study.cashmachine.machine.data.MoneyBox;
 
 import java.util.List;
 

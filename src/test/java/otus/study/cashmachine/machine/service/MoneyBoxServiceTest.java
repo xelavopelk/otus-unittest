@@ -2,7 +2,7 @@ package otus.study.cashmachine.machine.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import otus.study.cashmachine.machine.MoneyBox;
+import otus.study.cashmachine.machine.data.MoneyBox;
 import otus.study.cashmachine.machine.service.impl.MoneyBoxServiceImpl;
 
 import java.util.List;

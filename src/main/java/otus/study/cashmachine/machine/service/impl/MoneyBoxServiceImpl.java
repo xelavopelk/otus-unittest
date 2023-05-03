@@ -4,6 +4,7 @@ import otus.study.cashmachine.machine.data.MoneyBox;
 import otus.study.cashmachine.machine.service.MoneyBoxService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -37,7 +38,7 @@ public class MoneyBoxServiceImpl implements MoneyBoxService {
 
     @Override
     public List<Integer> getMoney(int sum) {
-        List<Integer> result = new ArrayList<>(4);
+        List<Integer> result = new ArrayList<>(Arrays.asList(0, 0, 0, 0));
 
         if (sum > checkSum()) {
             throw new IllegalStateException("Not enough money");
@@ -58,7 +59,7 @@ public class MoneyBoxServiceImpl implements MoneyBoxService {
                 chargedNotes = moneyBox.getNote5000();
             }
             sum -= chargedNotes * 5000;
-            result.add(0, chargedNotes);
+            result.set(0, chargedNotes);
         }
 
         if (sum >= 1000) {
@@ -69,7 +70,7 @@ public class MoneyBoxServiceImpl implements MoneyBoxService {
                 chargedNotes = moneyBox.getNote1000();
             }
             sum -= chargedNotes * 1000;
-            result.add(1, chargedNotes);
+            result.set(1, chargedNotes);
         }
 
         if (sum >= 500) {
@@ -80,7 +81,7 @@ public class MoneyBoxServiceImpl implements MoneyBoxService {
                 chargedNotes = moneyBox.getNote500();
             }
             sum -= chargedNotes * 500;
-            result.add(2, chargedNotes);
+            result.set(2, chargedNotes);
         }
 
         if (sum >= 100) {
@@ -91,7 +92,7 @@ public class MoneyBoxServiceImpl implements MoneyBoxService {
                 chargedNotes = moneyBox.getNote100();
             }
             sum -= chargedNotes * 100;
-            result.add(3, chargedNotes);
+            result.set(3, chargedNotes);
         }
 
         if (sum > 0) {
@@ -105,5 +106,4 @@ public class MoneyBoxServiceImpl implements MoneyBoxService {
 
         return result;
     }
-
 }

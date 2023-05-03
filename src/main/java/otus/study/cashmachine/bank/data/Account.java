@@ -3,7 +3,6 @@ package otus.study.cashmachine.bank.data;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-
 public class Account {
     public Account(final long id, final BigDecimal amount) {
         this.amount = amount;

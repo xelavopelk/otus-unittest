@@ -6,6 +6,10 @@ public class MoneyBox {
     int note1000;
     int note5000;
 
+    public MoneyBox() {
+        this(1000, 1000, 1000, 1000);
+    }
+
     public MoneyBox(final int note100, final int note500, final int note1000, final int note5000) {
         this.note100 = note100;
         this.note500 = note500;

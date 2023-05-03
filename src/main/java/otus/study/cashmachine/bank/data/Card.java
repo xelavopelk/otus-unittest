@@ -3,9 +3,9 @@ package otus.study.cashmachine.bank.data;
 public class Card {
     long id;
 
-    Long accountId;
-    String number;
-    String pinCode;
+    private Long accountId;
+    private String number;
+    private String pinCode;
 
     public Card(final long id, final String number, final Long accountId, final String pinCode) {
         this.id = id;

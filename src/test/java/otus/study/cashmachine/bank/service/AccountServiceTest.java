@@ -4,6 +4,8 @@ package otus.study.cashmachine.bank.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.Spy;
 import otus.study.cashmachine.bank.dao.AccountDao;
 import otus.study.cashmachine.bank.data.Account;
 import otus.study.cashmachine.bank.service.impl.AccountServiceImpl;
@@ -17,8 +19,10 @@ import static org.mockito.Mockito.*;
 
 public class AccountServiceTest {
 
+    @Mock
     AccountDao accountDao;
 
+    @Spy
     AccountServiceImpl accountServiceImpl;
 
     @BeforeEach

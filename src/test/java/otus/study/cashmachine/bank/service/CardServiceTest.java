@@ -11,6 +11,7 @@ import otus.study.cashmachine.bank.service.impl.CardServiceImpl;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class CardServiceTest {
@@ -71,6 +72,36 @@ public class CardServiceTest {
     void putMoney() {
     }
 
+
+    @Test
+    void changePin() {
+        var oldSum=1000;
+        var pin = "0000";
+        var num = "1234";
+        var carId = 1L;
+        var accId=1L;
+        Card card = new Card(carId, num, accId, TestUtil.getHash(pin));
+        when(cardsDao.getCardByNumber(anyString())).thenReturn(card);
+
+        assertTrue(cardService.cnangePin(num, pin, "0001"));
+
+        var p = cardsDao.getCardByNumber(num).getPinCode();
+        assertEquals(p,TestUtil.getHash("0001"));
+    }
+    @Test
+    void changePincardNotFound() {
+        var oldSum=1000;
+        var pin = "0000";
+        var num = "1234";
+        var carId = 1L;
+        var accId=1L;
+        Card card = new Card(carId, num, accId, TestUtil.getHash(pin));
+        when(cardsDao.getCardByNumber(anyString())).thenReturn(null);
+
+        Throwable exception = assertThrows(IllegalArgumentException.class,
+                () -> cardService.cnangePin(num, "0001", "0001"));
+        assertEquals("No card found", exception.getMessage());
+    }
     @Test
     void checkIncorrectPin() {
         Card card = new Card(1L, "1234", 1L, "0000");

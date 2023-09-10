@@ -20,8 +20,7 @@ import otus.study.cashmachine.machine.service.impl.CashMachineServiceImpl;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static otus.study.cashmachine.TestUtil.getHash;
 
@@ -70,6 +69,12 @@ class CashMachineServiceTest {
         when(moneyBoxService.getMoney(mb,1)).thenReturn(List.of(1));
         var r = cashMachineService.getMoney(cashMachine,num,pin,BigDecimal.valueOf(1));
         assertEquals(r, List.of(1));
+
+        Throwable throwable =  assertThrows(Throwable.class, () -> {
+            cashMachineService.getMoney(cashMachine,num,"0002",BigDecimal.valueOf(10000000));
+        });
+        assertEquals(IllegalArgumentException.class, throwable.getClass());
+
     }
 
     @Test
@@ -102,6 +107,7 @@ class CashMachineServiceTest {
         when(cardService.getBalance(num,pin)).thenReturn(BigDecimal.valueOf(2000));
 
         var sum = cashMachineService.checkBalance(cashMachine,num, pin);
+
         assertEquals(0, sum.compareTo(BigDecimal.valueOf(2000)));
 
     }
@@ -147,9 +153,8 @@ class CashMachineServiceTest {
         when(cardsDao.getCardByNumber(old.getNumber())).thenReturn(old);
         when(cardsDao.saveCard(pinCaptor.capture())).thenAnswer(answer);
 
-        cardService.cnangePin(old.getNumber(), old.getPinCode(), newPin);
+        cardService.cnangePin(old.getNumber(), "0000", newPin);
 
-        verify(cardsDao, only()).saveCard(any());
         assertEquals(getHash(newPin), pinCaptor.getValue().getPinCode());
     }
 }

@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+group 'otus.study'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation platform("io.helidon:helidon-dependencies:3.2.3")
+    implementation 'org.json:json:20231013'
+    implementation 'io.helidon.webserver:helidon-webserver'
+    implementation 'io.helidon.config:helidon-config-yaml'
+    implementation 'io.helidon.webserver:helidon-webserver-json:0.11.0'
+    implementation 'io.helidon.openapi:helidon-openapi'
+    implementation 'io.helidon.metrics:helidon-metrics'
+    implementation 'io.helidon.health:helidon-health-checks'
+    implementation 'io.helidon.integrations.openapi-ui:helidon-integrations-openapi-ui'
+    implementation 'io.smallrye:smallrye-open-api-ui:3.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -51,12 +51,14 @@ public class GreetService implements Service {
      * The config value for the key {@code greeting}.
      */
     private String greeting;
+    private Integer memory;
 
     private static final JsonBuilderFactory JSON_BF = Json.createBuilderFactory(Collections.emptyMap());
 
     private static final JsonReaderFactory JSON_RF = Json.createReaderFactory(Collections.emptyMap());
 
     GreetService(Config config) {
+        this.memory=0;
         this.greeting = config.get("app.greeting").asString().orElse("Ciao");
     }
 
@@ -79,7 +81,8 @@ public class GreetService implements Service {
      */
     private void getDefaultMessageHandler(ServerRequest request,
                                    ServerResponse response) {
-        sendResponse(response, "World, alex");
+        this.memory=this.memory+1;
+        sendResponse(response, String.format("|> memory=%d",this.memory));
     }
 
     /**

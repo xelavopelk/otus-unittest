@@ -16,64 +16,40 @@
 ---
 openapi: 3.0.0
 info:
-  title: Helidon SE Quickstart Example1
-  description: A very simple application to reply with friendly greetings
-  version: 1.0.0
+  title: REST-бурбулятор банкомата
+  description: бла-бла-бла, дай бабла...
+  version: 0.0.1
 
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:9080
     description: Local test server
 
 paths:
-  /greet:
-    get:
-      summary: Returns a generic greeting
-      description: Greets the user generically
-      responses:
-        default:
-          description: Simple JSON containing the greeting
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GreetingMessage'
-  /greet/greeting:
-    put:
-      summary: Set the greeting prefix
-      description: Permits the client to set the prefix part of the greeting ("Hello")
+  /cash/balance:
+    post:
+      summary: Выдача баланса
+      description: Выдача баланса посчёту
       requestBody:
-        description: Conveys the new greeting prefix to use in building greetings
+        description: JSON структура запроса баланса
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/GreetingMessage'
+              $ref: '#/components/schemas/BalanceRequestMessage'
             examples:
-              greeting:
-                summary: Example greeting message to update
-                value: New greeting message
+              balance:
+                summary: JSON структура запроса баланса
+                value: {
+                  account: "test1",
+                  pin: "0000"
+                }
       responses:
         "200":
           description: OK
           content:
             application/json: {}
-  /greet/{name}:
-    get:
-      summary: Returns a personalized greeting
-      parameters:
-      - name: name
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        default:
-          description: Simple JSON containing the greeting
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GreetingMessage'
 components:
   schemas:
-    GreetingMessage:
+    BalanceRequestMessage:
       properties:
-        message:
-          type: string
+        account: string
+        pin: string

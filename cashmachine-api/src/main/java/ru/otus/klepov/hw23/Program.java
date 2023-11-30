@@ -10,6 +10,15 @@ import io.helidon.metrics.serviceapi.MetricsSupport;
 import io.helidon.openapi.OpenAPISupport;
 import io.helidon.webserver.Routing;
 import io.helidon.webserver.WebServer;
+import otus.study.cashmachine.bank.dao.AccountDao;
+import otus.study.cashmachine.bank.dao.CardsDao;
+import otus.study.cashmachine.bank.service.impl.AccountServiceImpl;
+import otus.study.cashmachine.bank.service.impl.CardServiceImpl;
+import otus.study.cashmachine.machine.data.CashMachine;
+import otus.study.cashmachine.machine.data.MoneyBox;
+import otus.study.cashmachine.machine.service.CashMachineService;
+import otus.study.cashmachine.machine.service.impl.CashMachineServiceImpl;
+import otus.study.cashmachine.machine.service.impl.MoneyBoxServiceImpl;
 
 /**
  * Simple Hello World rest application.
@@ -31,7 +40,8 @@ public final class Program {
      * @return the created {@link WebServer} instance
      */
     static Single<WebServer> startServer() {
-
+        MoneyBox moneyBox = new MoneyBox();
+        CashMachine cashMachine = new CashMachine(moneyBox);
         // load logging configuration
         LogConfig.configureRuntime();
 
@@ -47,7 +57,7 @@ public final class Program {
 
         server.thenAccept(ws -> {
                 System.out.println(
-                        "WEB server is up! http://localhost:" + ws.port() + "/greet");
+                        "WEB server is up! http://localhost:" + ws.port() + "/openapi");
                 ws.whenShutdown().thenRun(()
                     -> System.out.println("WEB server is DOWN. Good bye!"));
                 })
@@ -65,10 +75,21 @@ public final class Program {
      * @return routing configured with a health check, and a service
      * @param config configuration of this server
      */
+    private static CashmachineRestService createBL(Config config) {
+        var accountDao = new AccountDao();
+        var cardsDao = new CardsDao();
+        var accountService = new AccountServiceImpl(accountDao);
+        var cardService = new CardServiceImpl(accountService, cardsDao);
+        var moneyBoxService = new MoneyBoxServiceImpl();
+        var cashMachineService = new CashMachineServiceImpl(cardService, accountService, moneyBoxService);
+        var moneyBox = new MoneyBox();
+        var cashMachine = new CashMachine(moneyBox);
+        return new CashmachineRestService(config, cashMachineService);
+    }
     private static Routing createRouting(Config config) {
 
         MetricsSupport metrics = MetricsSupport.create();
-        GreetService greetService = new GreetService(config);
+        var cms = createBL(config);
         HealthSupport health = HealthSupport.builder()
                 .addLiveness(HealthChecks.healthChecks())   // Adds a convenient set of checks
                 .build();
@@ -77,7 +98,7 @@ public final class Program {
                 .register(OpenAPISupport.create(config.get(OpenAPISupport.Builder.CONFIG_KEY)))
                 .register(health)                   // Health at "/health"
                 .register(metrics)                  // Metrics at "/metrics"
-                .register("/greet", greetService)
+                .register("/cash", cms)
                 .build();
     }
 

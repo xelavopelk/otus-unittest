@@ -15,10 +15,10 @@
 #
 
 app:
-  greeting: "Cashmachine API"
+  cachmashine: "Cashmachine API"
 
 server:
-  port: 8080
+  port: 9080
   host: 0.0.0.0
   
 #openapi:

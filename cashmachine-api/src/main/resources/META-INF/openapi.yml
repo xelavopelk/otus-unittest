@@ -28,7 +28,7 @@ paths:
   /cash/balance:
     post:
       summary: Выдача баланса
-      description: Выдача баланса посчёту
+      description: Выдача баланса по счёту
       requestBody:
         description: JSON структура запроса баланса
         content:
@@ -39,8 +39,77 @@ paths:
               balance:
                 summary: JSON структура запроса баланса
                 value: {
-                  account: "test1",
+                  cardNum: "test1",
                   pin: "0000"
+                }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json: {}
+  /cash/change-pin:
+    post:
+      summary: Смена пин-кода карты
+      description: Смена пин-кода карты
+      requestBody:
+        description: JSON структура запроса смены пин-кода
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePinRequestMessage'
+            examples:
+              newpin:
+                summary: JSON смены пин-кода карты
+                value: {
+                  cardNum: "test1",
+                  newPin: "0001",
+                  oldPin: "0000"
+                }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json: {}
+  /cash/get-money:
+    post:
+      summary: Выдача денег
+      description: Выдача денег
+      requestBody:
+        description: JSON структура запроса на выдачу денег
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetMoneyRequestMessage'
+            examples:
+              money:
+                summary: JSON структура запроса на выдачу денег
+                value: {
+                  cardNum: "test1",
+                  pin: "0000",
+                  amount: 100
+                }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json: {}
+  /cash/put-money:
+    post:
+      summary: Прием денег
+      description: Прием денег
+      requestBody:
+        description: JSON структура запроса на прием денег. Массив банкнот должен состоять из 4х элементов (банкноты номиналов 5000, 1000, 500, 100)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutMoneyRequestMessage'
+            examples:
+              money:
+                summary: JSON структура запроса на прием денег.
+                value: {
+                  cardNum: "test1",
+                  pin: "0000",
+                  notes: [1,1,0,0]
                 }
       responses:
         "200":
@@ -53,3 +122,23 @@ components:
       properties:
         account: string
         pin: string
+    ChangePinRequestMessage:
+      properties:
+        cardNum: string
+        newPin: string
+        oldPin: string
+    GetMoneyRequestMessage:
+      properties:
+        cardNum: string
+        pin: string
+        amount: integer
+    PutMoneyRequestMessage:
+      properties:
+        cardNum: string
+        pin: string
+        notes:
+          $ref: "#/components/schemas/ArrayOfInteger"
+    ArrayOfInteger:
+      type: array
+      items:
+        type: integer

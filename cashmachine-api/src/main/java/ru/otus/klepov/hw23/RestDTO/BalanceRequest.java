@@ -7,8 +7,6 @@ public final class BalanceRequest {
     private final String cardNum;
     private final String pin;
 
-    /*public BalanceRequest() {
-    }*/
     @SuppressWarnings("checkstyle:ParameterNumber")
     public BalanceRequest(String cardNum, String pin) {
         this.cardNum = cardNum;
@@ -29,12 +27,6 @@ public final class BalanceRequest {
         return pin;
     }
 
-    /*public void setCardNum(String value){
-        cardNum=value;
-    }
-    public void setPin(String value){
-        pin=value;
-    }*/
     @Override
     public String toString() {
         return String.format("%s; %s", cardNum, pin);

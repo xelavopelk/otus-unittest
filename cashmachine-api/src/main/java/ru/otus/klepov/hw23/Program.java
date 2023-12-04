@@ -6,23 +6,14 @@ import io.helidon.config.Config;
 import io.helidon.health.HealthSupport;
 import io.helidon.health.checks.HealthChecks;
 import io.helidon.media.jsonb.JsonbSupport;
-import io.helidon.media.jsonp.JsonpSupport;
 import io.helidon.metrics.serviceapi.MetricsSupport;
 import io.helidon.openapi.OpenAPISupport;
 import io.helidon.webserver.Routing;
 import io.helidon.webserver.WebServer;
-import otus.study.cashmachine.bank.dao.AccountDao;
-import otus.study.cashmachine.bank.dao.CardsDao;
-import otus.study.cashmachine.bank.service.impl.AccountServiceImpl;
-import otus.study.cashmachine.bank.service.impl.CardServiceImpl;
 import otus.study.cashmachine.machine.data.CashMachine;
-import otus.study.cashmachine.machine.data.MoneyBox;
-import otus.study.cashmachine.machine.service.CashMachineService;
-import otus.study.cashmachine.machine.service.impl.CashMachineServiceImpl;
-import otus.study.cashmachine.machine.service.impl.MoneyBoxServiceImpl;
 
 import java.io.IOException;
-import java.math.BigDecimal;
+
 
 public final class Program {
 

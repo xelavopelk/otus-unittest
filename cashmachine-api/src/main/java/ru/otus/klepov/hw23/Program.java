@@ -34,7 +34,7 @@ public final class Program {
     }
 
     static Single<WebServer> startServer() throws IOException {
-        MoneyBox moneyBox = new MoneyBox();
+
         LogConfig.configureRuntime();
         Config config = Config.create();
         Single<WebServer> server = WebServer.builder(createRouting(config))
@@ -62,7 +62,7 @@ public final class Program {
         var cashMachineService = new CashMachineServiceTsImpl(cmf.create());
         var moneyBox = (new MoneyBoxFactory()).create(); //new MoneyBox(100, 100, 100, 100);
         var cashMachine = new CashMachine(moneyBox);
-        return new CashmachineRestService(config, cashMachineService, cashMachine);
+        return new CashmachineRestService(cashMachineService, cashMachine);
     }
 
     private static Routing createRouting(Config config) throws IOException {

@@ -35,7 +35,6 @@ public class CashMachineServiceFactory {
 
         var cardService = new CardServiceImpl(accountService, cardsDao);
         var moneyBoxService = new MoneyBoxServiceImpl();
-        var cashMachineService = new CashMachineServiceImpl(cardService, accountService, moneyBoxService);
-        return cashMachineService;
+        return new CashMachineServiceImpl(cardService, accountService, moneyBoxService);
     }
 }

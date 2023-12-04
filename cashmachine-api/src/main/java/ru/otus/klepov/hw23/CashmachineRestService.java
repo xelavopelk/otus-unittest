@@ -21,22 +21,13 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class CashmachineRestService implements Service {
-    private static int BANKNOTE_NOM_COUNT = 4;
-    private String configPath = "app.cachmashine";
-
-    private String configData;
-
-    private static final JsonBuilderFactory JSON_BF = Json.createBuilderFactory(Collections.emptyMap());
-
-    private static final JsonReaderFactory JSON_RF = Json.createReaderFactory(Collections.emptyMap());
-
+    private static final int BANKNOTE_NOM_COUNT = 4;
     private CashMachineService srv;
     private CashMachine machine;
 
-    public CashmachineRestService(Config config, CashMachineService srv, CashMachine machine) {
+    public CashmachineRestService(CashMachineService srv, CashMachine machine) {
         this.srv = srv;
         this.machine = machine;
-        this.configData = config.get(configPath).asString().orElse(",  config info");
     }
 
     @Override

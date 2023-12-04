@@ -1,0 +1,144 @@
+#
+# Copyright (c) 2019, 2021 Oracle and/or its affiliates.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+openapi: 3.0.0
+info:
+  title: REST-бурбулятор банкомата
+  description: бла-бла-бла, дай бабла...
+  version: 0.0.1
+
+servers:
+  - url: http://localhost:9080
+    description: Local test server
+
+paths:
+  /cash/balance:
+    post:
+      summary: Выдача баланса
+      description: Выдача баланса по счёту
+      requestBody:
+        description: JSON структура запроса баланса
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BalanceRequestMessage'
+            examples:
+              balance:
+                summary: JSON структура запроса баланса
+                value: {
+                  cardNum: "test1",
+                  pin: "0000"
+                }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json: {}
+  /cash/change-pin:
+    post:
+      summary: Смена пин-кода карты
+      description: Смена пин-кода карты
+      requestBody:
+        description: JSON структура запроса смены пин-кода
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePinRequestMessage'
+            examples:
+              newpin:
+                summary: JSON смены пин-кода карты
+                value: {
+                  cardNum: "test1",
+                  newPin: "0001",
+                  oldPin: "0000"
+                }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json: {}
+  /cash/get-money:
+    post:
+      summary: Выдача денег
+      description: Выдача денег
+      requestBody:
+        description: JSON структура запроса на выдачу денег
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetMoneyRequestMessage'
+            examples:
+              money:
+                summary: JSON структура запроса на выдачу денег
+                value: {
+                  cardNum: "test1",
+                  pin: "0000",
+                  amount: 100
+                }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json: {}
+  /cash/put-money:
+    post:
+      summary: Прием денег
+      description: Прием денег
+      requestBody:
+        description: JSON структура запроса на прием денег. Массив банкнот должен состоять из 4х элементов (банкноты номиналов 5000, 1000, 500, 100)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutMoneyRequestMessage'
+            examples:
+              money:
+                summary: JSON структура запроса на прием денег.
+                value: {
+                  cardNum: "test1",
+                  pin: "0000",
+                  notes: [1,1,0,0]
+                }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json: {}
+components:
+  schemas:
+    BalanceRequestMessage:
+      properties:
+        account: string
+        pin: string
+    ChangePinRequestMessage:
+      properties:
+        cardNum: string
+        newPin: string
+        oldPin: string
+    GetMoneyRequestMessage:
+      properties:
+        cardNum: string
+        pin: string
+        amount: integer
+    PutMoneyRequestMessage:
+      properties:
+        cardNum: string
+        pin: string
+        notes:
+          $ref: "#/components/schemas/ArrayOfInteger"
+    ArrayOfInteger:
+      type: array
+      items:
+        type: integer
